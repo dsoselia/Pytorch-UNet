@@ -9,6 +9,8 @@ from unet import UNet
 from torchvision import transforms
 from utils.data_loading import BasicDataset
 
+MODEL_PATH = "MODEL.pth"  # change this to your path
+
 
 def predict_img(net, full_img, device, scale_factor=1, out_threshold=0.5):
     net.eval()
@@ -99,9 +101,7 @@ net = UNet(n_channels=3, n_classes=2, bilinear=False)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 net.to(device=device)
-net.load_state_dict(
-    torch.load("checkpoints/checkpoint_epoch1.pth", map_location=device)
-)
+net.load_state_dict(torch.load(MODEL_PATH, map_location=device))
 
 
 def mask_to_image(mask: np.ndarray):
